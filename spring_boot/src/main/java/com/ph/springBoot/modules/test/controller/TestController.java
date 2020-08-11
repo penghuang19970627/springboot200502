@@ -35,7 +35,7 @@ public class TestController {
     private ApplicationTest applicationTest;
 
     /**
-     * 127.0.0.1:8085/test/logTest ---- get
+     * 127.0.0.1:8081/test/log ---- get
      */
     @GetMapping("/log")
     @ResponseBody
@@ -45,7 +45,7 @@ public class TestController {
         LOGGER.info("This is info log");
         LOGGER.warn("This is warn log");
         LOGGER.error("This is error log");
-        return "这是日志系统测试";
+        return "这是日志系统测试(热加载实验)开始";
     }
 
     /**
