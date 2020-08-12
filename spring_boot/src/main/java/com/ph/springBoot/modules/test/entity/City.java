@@ -6,6 +6,15 @@ public class City {
     private String cityPopulation;
     private Country country;
     private int countryId;
+    private String cityEmil;
+
+    public String getCityEmil() {
+        return cityEmil;
+    }
+
+    public void setCityEmil(String cityEmil) {
+        this.cityEmil = cityEmil;
+    }
 
     public int getCountryId() {
         return countryId;
