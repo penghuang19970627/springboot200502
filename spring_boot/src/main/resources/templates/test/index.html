@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>测试标签</title>
+</head>
+<body>
+<h3>测试th:text</h3>
+<h1 th:text="${thymeleafTitle}">一号测试</h1>
+<p th:text="${thymeleafTitle}">二号测试</p>
+<p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
+
+<h3>测试th:if,th:unless.</h3>
+<p th:if="${checked} == true">三号测试</p>
+<p th:unless="${checked} == false">四号测试</p>
+<p th:if="${currentNumber}&lt;100">五号测试 &lt;100</p>
+<p th:if="${thymeleafTitle} == null">六号测试</p>
+<p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
+
+<h3>测试th:attr</h3>
+checkbox:<input type="text" th:attr="type=${changeType}" th:checked="${checked}"/>
+<p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
+
+<h3>测试url,href</h3>
+<a th:href="@{http://www.baidu.com}" target="_blank">百度</a><br>
+<a th:href="${baiduUrl}" target="_blank">日志系统</a><br>
+<!-- 封装动态url、url查询参数 -->
+<a th:href="@{'/ph/country/'+${city.cityId}}" th:text="${city.cityName}"></a>
+<a th:href="@{/test/index(pageSize=${city.cityId},currentPage='1')}" th:text="${city.cityName}"></a>
+<img th:src="@{${shopLogo}}"/>
+<p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
+<img th:src="@{${shopLogo1}}"/>
+<p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
+</body>
+</html>

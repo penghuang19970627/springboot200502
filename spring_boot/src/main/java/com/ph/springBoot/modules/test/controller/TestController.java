@@ -1,14 +1,22 @@
 package com.ph.springBoot.modules.test.controller;
 import com.ph.springBoot.Application;
+import com.ph.springBoot.modules.test.entity.City;
+import com.ph.springBoot.modules.test.entity.Country;
+import com.ph.springBoot.modules.test.service.CityService;
+import com.ph.springBoot.modules.test.service.CountryService;
 import com.ph.springBoot.modules.vo.ApplicationTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Description TestController
@@ -18,6 +26,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/test")
 public class TestController {
+
+    @Autowired
+    private CountryService countryService;
+    @Autowired
+    private CityService cityService;
+
+
     private final static Logger LOGGER = LoggerFactory.getLogger(TestController.class);
 
     @Value("${server.port}")
@@ -77,5 +92,31 @@ public class TestController {
     @ResponseBody
     public String testDesc() {
         return "这是我的第一个springboot项目";
+    }
+
+
+    /*127.0.0.1/test/index*/
+    @GetMapping("/index")
+    public String indexPage(ModelMap map){
+        int countryId = 2   ;
+        List<City> cities = cityService.getCitiesByCountryId(countryId);
+        cities = cities.stream().limit(10).collect(Collectors.toList());
+        Country country = countryService.getCountryByCountryId(countryId);
+
+        map.addAttribute("thymeleafTitle", "penghuang");
+        map.addAttribute("checked", true);
+        map.addAttribute("currentNumber", 99);
+        map.addAttribute("changeType", "checkbox");
+        map.addAttribute("baiduUrl", "/test/log");
+        map.addAttribute("city", cities.get(0));
+        map.addAttribute("shopLogo1",
+                "http://cdn.duitang.com/uploads/item/201308/13/20130813115619_EJCWm.thumb.700_0.jpeg");
+        map.addAttribute("shopLogo", "/upload/11111.jpg");
+        map.addAttribute("country", country);
+        map.addAttribute("cities", cities);
+        map.addAttribute("updateCityUri", "/ph/city");
+        map.addAttribute("template", "test/index");
+        // 返回外层的碎片组装器
+        return "index";
     }
 }

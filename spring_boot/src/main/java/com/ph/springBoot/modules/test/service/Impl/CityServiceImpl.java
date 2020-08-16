@@ -60,8 +60,10 @@ public class CityServiceImpl implements CityService {
     /*mybatis修改操作*/
     @Override
     @Transactional
+    //(noRollbackFor = ArithmeticException.class)
     public Result<City> updateCity(City city) {
         cityDao.updateCity(city);
+        //int i = 1 / 0;
         return new Result<City>(Result.ResultStatus.SUCCESS.status,"Update success.",city);
     }
 
