@@ -17,6 +17,7 @@ public class CityController {
     @Autowired
     private CityService cityService;
 
+    /*127.0.0.1/ph/cities/1*/
     @GetMapping("/cities/{countryId}")
     public List<City> getCitiesByCountryId (@PathVariable int countryId){
         return cityService.getCitiesByCountryId(countryId);

@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>测试标签</title>
-</head>
-<body>
 <h3>测试th:text</h3>
 <h1 th:text="${thymeleafTitle}">一号测试</h1>
 <p th:text="${thymeleafTitle}">二号测试</p>
@@ -31,5 +24,31 @@ checkbox:<input type="text" th:attr="type=${changeType}" th:checked="${checked}"
 <p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
 <img th:src="@{${shopLogo1}}"/>
 <p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
-</body>
-</html>
+<h3>测试th:object</h3>
+<div th:object="${country}">
+    <p th:text="*{countryId}">countryId</p>
+    <p th:text="*{countryName}">countryName</p>
+</div>
+<p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
+<h3>测试th:each</h3>
+<table>
+    <th>cityId</th><th>cityName</th><th>countryId</th>
+    <tr th:each="city : ${cities}">
+        <td th:text="${city.cityId}"></td>
+        <td th:text="${city.cityName}"></td>
+        <td th:text="${city.countryId}"></td>
+    </tr>
+</table>
+<select>
+    <option th:each="city,cityStatus : ${cities}"
+            th:value="${city.cityId}" th:text="${city.cityName}"></option>
+</select>
+<p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
+<h3>测试post form,th:action,th:object,th:field</h3>
+<form th:action="${updateCityUri}" method="post" th:object="${city}">
+    <input type="hidden" name="_method" value="PUT">
+    City Id:           <input th:field="*{cityId}" readonly/>
+    City Name:         <input th:field="*{cityName}"/>
+    <button type="submit">Submit INFO</button>
+</form>
+<p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>

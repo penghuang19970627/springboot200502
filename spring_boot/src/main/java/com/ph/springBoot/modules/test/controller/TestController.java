@@ -13,8 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -86,12 +88,13 @@ public class TestController {
     }
 
     /**
-     * 127.0.0.1:8080/test/testDesc ---- get
+     * 127.0.0.1/test/testDesc?paramKey=fuck ---- get
      */
     @GetMapping("/testDesc")
     @ResponseBody
-    public String testDesc() {
-        return "这是我的第一个springboot项目";
+    public String testDesc(HttpServletRequest request ,@RequestParam(value = "paramKey") String paramValue) {
+        String paramValue2 = request.getParameter("paramKey");
+        return "这是我的第一个springboot项目"+paramValue+"=="+paramValue2;
     }
 
 
@@ -115,7 +118,7 @@ public class TestController {
         map.addAttribute("country", country);
         map.addAttribute("cities", cities);
         map.addAttribute("updateCityUri", "/ph/city");
-        map.addAttribute("template", "test/index");
+        //map.addAttribute("template", "test/index");
         // 返回外层的碎片组装器
         return "index";
     }

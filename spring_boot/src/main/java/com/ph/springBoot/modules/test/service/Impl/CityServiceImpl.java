@@ -2,6 +2,7 @@ package com.ph.springBoot.modules.test.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.ph.springBoot.aspect.ServiceAnnotation;
 import com.ph.springBoot.modules.common.vo.Result;
 import com.ph.springBoot.modules.common.vo.SearchVo;
 import com.ph.springBoot.modules.test.dao.CityDao;
@@ -23,6 +24,7 @@ public class CityServiceImpl implements CityService {
     private CityDao cityDao;
 
     @Override
+    @ServiceAnnotation(value = "ph")
     public List<City> getCitiesByCountryId(int countryId) {
         return Optional
                 .ofNullable(cityDao.getCitiesByCountryId(countryId))
