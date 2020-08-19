@@ -1,70 +1,74 @@
-<h3>上传文件</h3>
-<br>
-<a href="/test/file?fileName=0.jpg">下载</a>
-<p th:text="${message}"></p>
-<form action="/test/file" method="post" enctype="multipart/form-data">
-    <input type="file" name="file">
-    <button type="submit">上传</button>
-</form>
-<br>
-<form action="/test/files" method="post" enctype="multipart/form-data">
-    <input type="file" name="files">
-    <input type="file" name="files">
-    <button type="submit">上传</button>
-</form>
+<div class="right_col" role="main">
+    <h3>上传文件</h3>
+    <br>
+    <a href="/test/file?fileName=0.jpg">下载</a>
+    <a href="/test/downone?fileName=1111.jpg">下载1</a>
+    <a href="/test/downtwo?fileName=145154K950110-56230.jpg">下载2</a>
+    <p th:text="${message}"></p>
+    <form action="/test/file" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <button type="submit">上传</button>
+    </form>
+    <br>
+    <form action="/test/files" method="post" enctype="multipart/form-data">
+        <input type="file" name="files">
+        <input type="file" name="files">
+        <button type="submit">上传</button>
+    </form>
 
 
-<h3>测试th:text</h3>
-<h1 th:text="${thymeleafTitle}">一号测试</h1>
-<p th:text="${thymeleafTitle}">二号测试</p>
-<p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
+    <h3>测试th:text</h3>
+    <h1 th:text="${thymeleafTitle}">一号测试</h1>
+    <p th:text="${thymeleafTitle}">二号测试</p>
+    <p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
 
-<h3>测试th:if,th:unless.</h3>
-<p th:if="${checked} == true">三号测试</p>
-<p th:unless="${checked} == false">四号测试</p>
-<p th:if="${currentNumber}&lt;100">五号测试 &lt;100</p>
-<p th:if="${thymeleafTitle} == null">六号测试</p>
-<p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
+    <h3>测试th:if,th:unless.</h3>
+    <p th:if="${checked} == true">三号测试</p>
+    <p th:unless="${checked} == false">四号测试</p>
+    <p th:if="${currentNumber}&lt;100">五号测试 &lt;100</p>
+    <p th:if="${thymeleafTitle} == null">六号测试</p>
+    <p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
 
-<h3>测试th:attr</h3>
-checkbox:<input type="text" th:attr="type=${changeType}" th:checked="${checked}"/>
-<p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
+    <h3>测试th:attr</h3>
+    checkbox:<input type="text" th:attr="type=${changeType}" th:checked="${checked}"/>
+    <p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
 
-<h3>测试url,href</h3>
-<a th:href="@{http://www.baidu.com}" target="_blank">百度</a><br>
-<a th:href="${baiduUrl}" target="_blank">日志系统</a><br>
-<!-- 封装动态url、url查询参数 -->
-<a th:href="@{'/ph/country/'+${city.cityId}}" th:text="${city.cityName}"></a>
-<a th:href="@{/test/index(pageSize=${city.cityId},currentPage='1')}" th:text="${city.cityName}"></a>
-<img th:src="@{${shopLogo}}"/>
-<p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
-<img th:src="@{${shopLogo1}}"/>
-<p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
-<h3>测试th:object</h3>
-<div th:object="${country}">
-    <p th:text="*{countryId}">countryId</p>
-    <p th:text="*{countryName}">countryName</p>
+    <h3>测试url,href</h3>
+    <a th:href="@{http://www.baidu.com}" target="_blank">百度</a><br>
+    <a th:href="${baiduUrl}" target="_blank">日志系统</a><br>
+    <!-- 封装动态url、url查询参数 -->
+    <a th:href="@{'/ph/country/'+${city.cityId}}" th:text="${city.cityName}"></a>
+    <a th:href="@{/test/index(pageSize=${city.cityId},currentPage='1')}" th:text="${city.cityName}"></a>
+    <img th:src="@{${shopLogo}}"/>
+    <p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
+    <img th:src="@{${shopLogo1}}"/>
+    <p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
+    <h3>测试th:object</h3>
+    <div th:object="${country}">
+        <p th:text="*{countryId}">countryId</p>
+        <p th:text="*{countryName}">countryName</p>
+    </div>
+    <p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
+    <h3>测试th:each</h3>
+    <table>
+        <th>cityId</th><th>cityName</th><th>countryId</th>
+        <tr th:each="city : ${cities}">
+            <td th:text="${city.cityId}"></td>
+            <td th:text="${city.cityName}"></td>
+            <td th:text="${city.countryId}"></td>
+        </tr>
+    </table>
+    <select>
+        <option th:each="city,cityStatus : ${cities}"
+                th:value="${city.cityId}" th:text="${city.cityName}"></option>
+    </select>
+    <p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
+    <h3>测试post form,th:action,th:object,th:field</h3>
+    <form th:action="${updateCityUri}" method="post" th:object="${city}">
+        <input type="hidden" name="_method" value="PUT">
+        City Id:           <input th:field="*{cityId}" readonly/>
+        City Name:         <input th:field="*{cityName}"/>
+        <button type="submit">Submit INFO</button>
+    </form>
+    <p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
 </div>
-<p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
-<h3>测试th:each</h3>
-<table>
-    <th>cityId</th><th>cityName</th><th>countryId</th>
-    <tr th:each="city : ${cities}">
-        <td th:text="${city.cityId}"></td>
-        <td th:text="${city.cityName}"></td>
-        <td th:text="${city.countryId}"></td>
-    </tr>
-</table>
-<select>
-    <option th:each="city,cityStatus : ${cities}"
-            th:value="${city.cityId}" th:text="${city.cityName}"></option>
-</select>
-<p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>
-<h3>测试post form,th:action,th:object,th:field</h3>
-<form th:action="${updateCityUri}" method="post" th:object="${city}">
-    <input type="hidden" name="_method" value="PUT">
-    City Id:           <input th:field="*{cityId}" readonly/>
-    City Name:         <input th:field="*{cityName}"/>
-    <button type="submit">Submit INFO</button>
-</form>
-<p>————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</p>

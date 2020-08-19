@@ -4,6 +4,7 @@ import com.ph.springBoot.modules.test.entity.Country;
 import com.ph.springBoot.modules.test.service.CityService;
 import com.ph.springBoot.modules.test.service.CountryService;
 import com.ph.springBoot.modules.vo.ApplicationTest;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,11 +114,10 @@ public class TestController {
     }
 
     /*将文件以BufferedInputStream的方式读取到byte[]里面，然后用OutputStream.write输出文件*/
-    /*报Request method 'GET' not supported错误*/
     /*127.0.0.1/test/downone   request*/
-    /*@GetMapping("/downone")
+    @RequestMapping("/downone")
     public void downloadfileone(HttpServletRequest request, HttpServletResponse response,@RequestParam String fileName){
-        String filePath = "D:\\upload" +File.separator+ fileName;
+        String filePath = "D:\\upload\\" + fileName;
         File downloadFile = new File(filePath);
         if (downloadFile.exists()){
             response.setContentType("application/octet-stream");
@@ -151,14 +151,13 @@ public class TestController {
                 }
             }
         }
-    }*/
+    }
 
     /*以包装类 IOUtils 输出文件*/
-    /*127.0.0.1/test/downrwo*/
-    /*报Request method 'GET' not supported错误*/
-    /*@RequestMapping("/downtwo")
+    /*127.0.0.1/test/downtwo*/
+    @RequestMapping("/downtwo")
     public void downloadtwo(HttpServletResponse response ,@RequestParam String fileName){
-        String filePath = "D:\\upload" +File.separator+ fileName;
+        String filePath = "D:\\upload\\" + fileName;
         File downfile = new File(filePath);
         try {
             if (downfile.exists()){
@@ -173,7 +172,7 @@ public class TestController {
             LOGGER.debug(e.getMessage());
             e.printStackTrace();
         }
-    }*/
+    }
 
     private final static Logger LOGGER = LoggerFactory.getLogger(TestController.class);
 
