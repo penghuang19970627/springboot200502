@@ -1,0 +1,64 @@
+<div class="login_wrapper">
+    <div class="animate form login_form">
+        <section class="login_content">
+            <form action="javascript:void(0);">
+                <h1>注册</h1>
+                <div>
+                    <input name="userName" type="text" class="form-control" placeholder="Username" required="" />
+                </div>
+                <div>
+                    <input name="userPassword" type="password" class="form-control" placeholder="Password" required="" />
+                </div>
+                <div>
+                    <a id="registerButton" class="btn btn-default submit" href="javascript:void(0);">注册</a>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="separator">
+                    <p class="change_link">
+                        <a href="/account/login" class="to_register"> 前往登录 </a>
+                    </p>
+
+                    <div class="clearfix"></div>
+                    <br />
+
+                    <div>
+                        <h1><i class="fa fa-paw"></i> PengHuang!</h1>
+                        <p>©2016 All Rights Reserved.Creat by PengHuang！</p>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#registerButton").bind("click",function () {
+            register();
+        })
+    })
+    function register() {
+        var user = {};
+        user.userName = $("[name=userName]").val();
+        user.userPassword = $("[name=userPassword]").val();
+
+        $.ajax({
+            url:"/ph/user",
+            type:"post",
+            contentType:"application/json",
+            data:JSON.stringify(user),
+            success:function (data) {
+                if (data.status == 200){
+                    location.href = "/account/login";
+                }else {
+                    layer.msy(data.message,{icon: 0});
+                }
+            },
+            error:function (data) {
+                layer.msy(data.responseText,{icon: 0});
+            }
+        })
+    }
+</script>
