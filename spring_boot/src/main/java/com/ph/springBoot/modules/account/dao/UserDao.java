@@ -2,9 +2,7 @@ package com.ph.springBoot.modules.account.dao;
 
 import com.ph.springBoot.modules.account.entity.User;
 import com.ph.springBoot.modules.common.vo.SearchVo;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,7 +11,9 @@ import java.util.List;
 @Mapper
 public interface UserDao {
     /*插入数据*/
-    @Insert("insert into user (user_name,user_password,create_date) values (#{userName},#{userPassword},#{createDate})")
+    @Insert("insert into user (user_name,password,user_img,create_date) " +
+            "values (#{userName},#{password},#{userImg},#{createDate})")
+    @Options(useGeneratedKeys = true,keyColumn = "user_id",keyProperty = "userId")
     void insertUser(User user);
 
     /*判断用户名是否存在*/
@@ -38,4 +38,24 @@ public interface UserDao {
             + "</choose>"
             + "</script>")
     List<User> getUserBySearchVo(SearchVo searchVo);
+
+    /*修改*/
+    @Update("update user set user_name = #{userName},user_img = #{userImg} where user_id = #{userId}")
+    void updateUser(User user);
+
+    /*删除*/
+    @Delete("delete from user where user_id = #{userId}")
+    void deleteUser(int userId);
+
+    /*user和role角色组合查询*/
+    @Select("select * from user where user_id = #{userId}")
+    @Results(id = "userResults" ,value = {
+            @Result(column = "user_id",property = "userId"),
+            @Result(column = "user_id",property = "roles",
+                    javaType = List.class,
+                    many = @Many(select = "com.ph.springBoot.modules.account.dao.RoleDao.getRolesByUserId"))
+            }
+            )
+    User getUserByUserId(int UserId);
+
 }

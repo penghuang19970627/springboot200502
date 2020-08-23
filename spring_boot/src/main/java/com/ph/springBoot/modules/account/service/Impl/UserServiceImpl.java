@@ -3,6 +3,8 @@ package com.ph.springBoot.modules.account.service.Impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ph.springBoot.modules.account.dao.UserDao;
+import com.ph.springBoot.modules.account.dao.UserRoleDao;
+import com.ph.springBoot.modules.account.entity.Role;
 import com.ph.springBoot.modules.account.entity.User;
 import com.ph.springBoot.modules.account.service.UserService;
 import com.ph.springBoot.modules.common.vo.Result;
@@ -10,32 +12,45 @@ import com.ph.springBoot.modules.common.vo.SearchVo;
 import com.ph.springBoot.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private UserRoleDao userRoleDao;
 
     /*插入数据*/
     @Override
+    @Transactional
     public Result<User> insertUser(User user) {
         User userTemp = userDao.getUserByUserName(user.getUserName());
-        String usertemp = user.getUserName();
-        String userpassword = user.getUserPassword();
-        System.out.println("————————————————————————"+usertemp+"_________________________"+userpassword+"——————————————————————————————————————————");
-        if (!usertemp.equals(null) && !userpassword.equals(null)){
-            user.setCreateDate(LocalDateTime.now());
-            user.setUserPassword(MD5Util.getMD5(user.getUserPassword()));
-            userDao.insertUser(user);
-            return new Result<User>(Result.ResultStatus.SUCCESS.status,"注册成功",user);
-        }
         if (userTemp != null){
             return new Result<User>(Result.ResultStatus.FAILD.status,"用户名已存在，请重新输入！");
+        }
+        String usertemp = user.getUserName();
+        String userpassword = user.getPassword();
+        System.out.println("————————————————————————"+usertemp+"_________________________"+userpassword+"——————————————————————————————————————————");
+        if (usertemp != "" && userpassword != ""){
+            System.err.println("————————————————————————"+usertemp+"_________________________"+userpassword+"——————————————————————————————————————————");
+            user.setCreateDate(LocalDateTime.now());
+            user.setPassword(MD5Util.getMD5(user.getPassword()));
+            userDao.insertUser(user);
+            userRoleDao.deleteUserRoleByUserId(user.getUserId());
+            List<Role> roles = user.getRoles();
+            if (roles != null && !roles.isEmpty()){
+                roles.stream().forEach(item -> {
+                    userRoleDao.insertUserRole(user.getUserId(),item.getRoleId());
+                });
+            }
+            return new Result<User>(Result.ResultStatus.SUCCESS.status,"注册成功",user);
         }
         return new Result<User>(Result.ResultStatus.FAILD.status,"用户名或密码不能为空！！");
     }
@@ -44,7 +59,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result<User> selectUser(User user) {
         User userTemp = userDao.getUserByUserName(user.getUserName());
-        if (userTemp != null && userTemp.getUserPassword().equals(MD5Util.getMD5(user.getUserPassword()))){
+        if (userTemp != null && userTemp.getPassword().equals(MD5Util.getMD5(user.getPassword()))){
             return new Result<User>(Result.ResultStatus.SUCCESS.status,"登陆成功",user);
         }
         return new Result<User>(Result.ResultStatus.FAILD.status,"用户名或密码错误");
@@ -61,6 +76,38 @@ public class UserServiceImpl implements UserService {
                         .orElse(Collections.emptyList()));
     }
 
+    /*修改*/
+    @Override
+    @Transactional
+    public Result<User> updateUser(User user) {
+        User userTemp = userDao.getUserByUserName(user.getUserName());
+        if (userTemp != null && userTemp.getUserId() != user.getUserId()){
+            return new Result<User>(Result.ResultStatus.FAILD.status,"此用户已存在，请重新修改");
+        }
+        userDao.updateUser(user);
+        userRoleDao.deleteUserRoleByUserId(user.getUserId());
+        List<Role> roles = user.getRoles();
+        if (roles != null && !roles.isEmpty()){
+            roles.stream().forEach(item -> {
+                userRoleDao.insertUserRole(user.getUserId(),item.getRoleId());
+            });
+        }
+        return new Result<User>(Result.ResultStatus.SUCCESS.status,"修改成功",user);
+    }
+
+    /*删除*/
+    @Override
+    @Transactional
+    public Result<Object> deleteUser(int userId) {
+        userDao.deleteUser(userId);
+        userRoleDao.deleteUserRoleByUserId(userId);
+        return new Result<Object>(Result.ResultStatus.SUCCESS.status,"删除成功");
+    }
+
+    @Override
+    public User getUserByUserId(int userId) {
+        return userDao.getUserByUserId(userId);
+    }
 
 
 }

@@ -7,7 +7,7 @@
                     <input name="userName" type="text" class="form-control" placeholder="Username" required="" />
                 </div>
                 <div>
-                    <input name="userPassword" type="password" class="form-control" placeholder="Password" required="" />
+                    <input name="password" type="password" class="form-control" placeholder="Password" required="" />
                 </div>
                 <div>
                     <a id="registerButton" class="btn btn-default submit" href="javascript:void(0);">注册</a>
@@ -42,7 +42,7 @@
     function register() {
         var user = {};
         user.userName = $("[name=userName]").val();
-        user.userPassword = $("[name=userPassword]").val();
+        user.password = $("[name=password]").val();
 
         $.ajax({
             url:"/ph/user",
@@ -53,11 +53,11 @@
                 if (data.status == 200){
                     location.href = "/account/login";
                 }else {
-                    layer.msy(data.message,{icon: 0});
+                    layer.msg(data.message,{icon :0})
                 }
             },
             error:function (data) {
-                layer.msy(data.responseText,{icon: 0});
+                alert("用户名或密码不能为空")
             }
         })
     }

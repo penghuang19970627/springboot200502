@@ -14,4 +14,13 @@ public interface UserService {
 
     /*分页*/
     PageInfo<User> getUserBySearchVo(SearchVo searchVo);
+
+    /*修改*/
+    Result<User> updateUser(User user);
+
+    /*删除*/
+    Result<Object> deleteUser(int userId);
+
+    User getUserByUserId(int userId);
+
 }

@@ -41,4 +41,27 @@ public class UserController {
     public PageInfo<User> getUserBySearchVo(@RequestBody SearchVo searchVo) {
         return service.getUserBySearchVo(searchVo);
     }
+
+    /*修改*/
+    /*127.0.0.1/ph/user*/
+    /*{"userId":"8","userName":"luolang"}*/
+    @PutMapping(value = "/user",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Result<User> updateUser(@RequestBody User user) {
+        return service.updateUser(user);
+    }
+
+    /*删除*/
+    /*127.0.0.1/ph/user/2*/
+    @DeleteMapping("/user/{userId}")
+    public Result<Object> deleteUser(@PathVariable int userId){
+        return service.deleteUser(userId);
+    }
+
+    //"127.0.0.1/ph/user/2"
+    @GetMapping("/user/{userId}")
+    public User getUserByUserId(@PathVariable int userId){
+        return service.getUserByUserId(userId);
+    }
+
+
 }
