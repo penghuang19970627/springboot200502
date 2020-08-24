@@ -28,4 +28,9 @@ public class AccountController {
         return "index";
     }
 
+    @GetMapping("/profile")
+    public String profile(){
+        return "index";
+    }
+
 }

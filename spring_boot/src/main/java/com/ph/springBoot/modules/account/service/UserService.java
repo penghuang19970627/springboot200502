@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.ph.springBoot.modules.account.entity.User;
 import com.ph.springBoot.modules.common.vo.Result;
 import com.ph.springBoot.modules.common.vo.SearchVo;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface UserService {
     /*插入数据*/
@@ -22,5 +23,10 @@ public interface UserService {
     Result<Object> deleteUser(int userId);
 
     User getUserByUserId(int userId);
+
+    /*用户照片上传*/
+    Result<String> uploadUserImg(MultipartFile file);
+
+    Result<User> updateUserProfile(User user);
 
 }
