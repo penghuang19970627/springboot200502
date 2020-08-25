@@ -59,13 +59,13 @@
     function login() {
         var code = $(".input-val").val();
         var num = show_num.join("");
-        if (code == "") {
+        /*if (code == "") {
             layer.msg("请输入验证码", {icon: 0});
             return;
         } else if (code != num) {
             layer.msg("验证码输入有误", {icon: 0});
             return;
-        };
+        };*/
         var user = {};
         user.userName = $("[name=userName]").val();
         console.log(user);

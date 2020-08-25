@@ -11,12 +11,15 @@ import com.ph.springBoot.modules.account.service.UserService;
 import com.ph.springBoot.modules.common.vo.Result;
 import com.ph.springBoot.modules.common.vo.SearchVo;
 import com.ph.springBoot.utils.MD5Util;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-
+import org.apache.shiro.subject.Subject;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -64,11 +67,27 @@ public class UserServiceImpl implements UserService {
     /*验证数据*/
     @Override
     public Result<User> selectUser(User user) {
-        User userTemp = userDao.getUserByUserName(user.getUserName());
-        if (userTemp != null && userTemp.getPassword().equals(MD5Util.getMD5(user.getPassword()))){
-            return new Result<User>(Result.ResultStatus.SUCCESS.status,"登陆成功",user);
+        Subject subject = SecurityUtils.getSubject();
+
+        UsernamePasswordToken usernamePasswordToken =
+                new UsernamePasswordToken(user.getUserName(),
+                        MD5Util.getMD5(user.getPassword()));
+        usernamePasswordToken.setRememberMe(user.getRememberMe());
+
+        try {
+            subject.login(usernamePasswordToken);
+            subject.checkRoles();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result<User>(Result.ResultStatus.FAILD.status,
+                    "用户名或密码错误");
         }
-        return new Result<User>(Result.ResultStatus.FAILD.status,"用户名或密码错误");
+
+        Session session = subject.getSession();
+        session.setAttribute("user", (User)subject.getPrincipal());
+
+        return new Result<User>(Result.ResultStatus.SUCCESS.status,
+                "登陆成功", user);
     }
 
 
@@ -159,5 +178,18 @@ public class UserServiceImpl implements UserService {
         return new Result<User>(Result.ResultStatus.SUCCESS.status,"修改成功",user);
     }
 
+    @Override
+    public User getUserByUserName(String userName) {
+        return userDao.getUserByUserName(userName);
+    }
+
+
+    @Override
+    public void logout() {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        Session session = subject.getSession();
+        session.setAttribute("user", null);
+    }
 
 }

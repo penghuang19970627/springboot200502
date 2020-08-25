@@ -64,7 +64,7 @@ public class User implements Serializable {
     @Transient
     private boolean rememberMe;
 
-    public boolean isRememberMe() {
+    public boolean getRememberMe() {
         return rememberMe;
     }
 

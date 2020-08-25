@@ -18,6 +18,7 @@ public interface UserDao {
 
     /*判断用户名是否存在*/
     @Select("select * from user where user_name = #{userName}")
+    @ResultMap(value = "userResults")
     User getUserByUserName(String userName);
 
     /*分页*/

@@ -5,6 +5,7 @@ import com.ph.springBoot.modules.account.entity.User;
 import com.ph.springBoot.modules.account.service.UserService;
 import com.ph.springBoot.modules.common.vo.Result;
 import com.ph.springBoot.modules.common.vo.SearchVo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +55,7 @@ public class UserController {
     /*删除*/
     /*127.0.0.1/ph/user/2*/
     @DeleteMapping("/user/{userId}")
+    @RequiresPermissions(value = "/ph/user")
     public Result<Object> deleteUser(@PathVariable int userId){
         return service.deleteUser(userId);
     }

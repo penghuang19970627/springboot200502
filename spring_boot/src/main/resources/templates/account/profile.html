@@ -336,7 +336,7 @@
     $(document).ready(function() {
         initFileInput();
 
-        initUserProfile(2);
+        initUserProfile($("#userId").val());
 
         $("#editProfile").bind("click", function(){
             editProfile();
@@ -410,7 +410,7 @@
             uploadClass: "btn btn-info",
             removeClass: "btn btn-danger"
         }).on('fileerror', function (event, data, msg) {
-            layer.alert("Upload file failed" + msg, {icon: 0});
+            layer.alert("上传失败" + msg, {icon: 0});
         }).on('fileuploaded', function (event, data) {
             if (data.response.status == 200) {
                 $("#userImg").val(data.response.object);
