@@ -124,6 +124,24 @@
 
         <!--shiro依赖结束-->
 
+        <!--easypoi(文档格式导出框架)依赖开始-->
+        <!-- https://mvnrepository.com/artifact/cn.afterturn/easypoi-spring-boot-starter -->
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-spring-boot-starter</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+        <!--easypoi(文档格式导出框架)依赖结束-->
+        <!--lomdok依赖开始-->
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.12</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--lombok依赖结束-->
+
     </dependencies>
 
     <build>

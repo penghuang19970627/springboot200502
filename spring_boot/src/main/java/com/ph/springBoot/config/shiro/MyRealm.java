@@ -46,11 +46,15 @@ public class MyRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken Token) throws AuthenticationException {
+        /*获取前端用户信息*/
         String userName = (String)Token.getPrincipal();
+        /*查询数据库信息*/
         User user = userService.getUserByUserName(userName);
+        /*判断用户*/
         if (user == null){
             throw new UnknownAccountException("没有此用户");
         }
+        /*身份验证器*/
         return new SimpleAuthenticationInfo(user,user.getPassword(),getName());
     }
 }
