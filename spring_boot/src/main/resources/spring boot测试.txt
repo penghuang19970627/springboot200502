@@ -1,0 +1,114 @@
+一、选择题（共12小题，每小题2.5分，共30分）
+	以下不是spring boot优点的是 ( D )
+		A．快速搭建项目
+		B．简化配置  
+		C．自动配置  
+		D．无需容器
+	Spring Boot配置，以下哪个优先级最高（A）
+		A、外置：xx.jar同目录下/config/application.properties；
+		B、外置：xx.jar同目录下/config/application.yml；
+		C、内置：src/main/resources/config；
+		D、内置：src/main/resources
+	以下log日志级别哪个最高（D）
+		A、DEBUG
+		B、INFO
+		C、WARN
+		D、ERROR
+	以下不是spring boot的核心注解的是 ( B )
+		A.	@SpringBootConfiguration
+		B.	@EnableAutoConfiguration
+		C.	@ComponentScan
+		D.	@MapperScan
+	要使用springMVC的功能，需要导入那个包 ( C )
+		A．spring-boot-starter-jdbc  
+		B．spring-boot-starter-thymeleaf  
+		C．spring-boot-starter-web  
+		D．mybatis-spring-boot-starter
+	以下哪个注解不能加在类上 ( D )
+		A.	@Controller
+		B.	@ResponseBody
+		C.	@RestController
+		D.	@RequestMapping
+	当控制层上有@RestController注解时，方法中返回一个字符串“<h1>Hello</h1>”，浏览器调用的结果是 ( D )
+		A. 一级标题显示的Hello
+		B.	找不到Hello.html
+		C.	<h1>Hello</>
+		D.	Hello
+	SpringBoot项目中配置文件的格式 (C )
+		A．properties  
+		B．yml  
+		C．两者都可以
+	不是SpringBoot核心配置文件是（C）
+		A.	bootstrap
+		B.	application
+		C.	application-dev
+	前台使用json参数格式，控制器consumer、参数使用的注解是（A）
+		A、application/josn ---- @RequestBody
+		B、application/josn ---- @ModelAttribute
+		C、application/x-www-form-urlencoded ---- @RequestBody
+		D、application/x-www-form-urlencoded ---- @ModelAttribute
+	@Pointcut("execution(public * com.thornBird.sbd.modules.*.controller.*.*(..))")，第三个*代表（C）
+		A、代表返回类型不限
+		B、代表module下所有子包
+		C、代表所有类
+		D、代表所有方法
+	Url匹配风格中/admin*，以下哪个匹配不正确（D）
+		A、/admin
+		B、/admin1
+		C、/admin123
+		D、/admin/1
+	Mybatis框架中，插入数据使用那个注解（B）
+		A、@Update
+		B、@Insert
+		C、@Select
+		D、@InsertMapping
+
+二、填空题（共5小题，每小题5分，共25分）
+	获取配置文件的属性值，使用哪个注解____@Value____________；
+	Java配置依赖的2个注解是____@Configuration______，____@Bean_______;
+	Spring Boot修改tomcat端口号为9090应该怎么写？__server.http.port=9090__________;
+	自定义拦截器需要实现__HandlerInterceptor______接口；
+	过滤器需要使用____@WebFilter_____注解;
+	上传文件，使用__@RequestParam MultipartFile file_接收文件对象，consumer使用__multipart/form-data___;
+
+三、问答题（每题5分，共25分）
+	阐述 Spring Boot 特性，举一个例子来解释 Staters 的内容；
+	答：Spring Boot特性：
+		1.快速开发
+		2.“习惯优于配置”，简化了配置，没有web.xml
+		3.内嵌式的servlet容器，所以不需要外置容器
+		4.监控方便
+		5.使用注解进行开发
+		6.pom.xml使用staters的方式，采用组类聚了多个jar，
+		形成单条依赖，按父子继承的方式，对jar进行版本控制。
+		Staters相当于一个口袋，将一些常用的jar装在里面，但这是口袋
+		又是和你的衣服连在一起的，所以就可以直接通过这个口袋得到相应的jar。
+		
+	Mybatis传参中，#{*}、${*}的区别？
+	答：#{*}表示 一个占位符，是预编译处理，MyBatis在处理时，#{*}会替换为？，
+	然后调用set方法来赋值，主要用来获取Dao中的参数数据，可以有效的防止sql注入。
+	${*}表示拼接sql串，是字符串替换，MyBatis在处理时，直接将${*}替换成值，
+	主要用来获取配置文件数据，会导致sql注入，不利于系统的安全性，获取参数数据时，
+	参数必须使用@Param注解进行修饰。
+	
+	简述Restful规则？
+	答：是一种互联网软件架构，结构清晰、符合标准、易于理解、扩展方便，使用标准的方法操作资源。
+	
+	简述Git使用流程，写几个常用Git命令？
+	答：Git使用流程：注册一个码云或者Github账号，建立一个仓库，在本地建立一个文件夹，
+	采用cmd命令，使本地仓库与Git仓库连接起来，在IDEA上setting里面把Git挂载在IDEA上，
+	在本地创建一个项目，通过IDEA就通过Commit And Push 就可以将本地项目传入Git仓库了。
+	Git命令：1.git push 2.git config 3.git add 4.git commit 5.git status
+	
+	简述shiro两大功能实现流程；
+	答：前端登录信息经过controller(控制层)，将信息传给service(业务处理层)，
+	在service层通过定义subject，将信息包装成一个令牌类UsernamePasswordToken(用户名，密码，记住我)，
+	在通过subject.login(usernamePasswordToken)将令牌类传给Realm进行认证，subject.checkRoles()进行授权。
+	认证：将令牌类与Realm包装的身份验证器进行对比。
+	授权：subject调用checkRoles()，跳转页面，当页面有shiro标签或方法上有shiro注解时，调用Realm中的资源授权器，
+	资源授权器与标签或注解上的内容进行对比。
+
+四、编程题（每题10分，共20分）
+	1、提供一个接口，返回 List<User> 列表，对该列表进行排序、保留10条数据；页面端使用 ajax post 方式提交请求，包装查询参数，获取接口返回数据，并遍历数据渲染到页面上 table 表格中；
+
+	2、设计一套购物车接口，以 Cookie 或者 redis 实现
